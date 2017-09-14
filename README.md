@@ -5,6 +5,7 @@
 For the course we will first need to download the following data which consists of 2 sets of files, `Coupon` and `Ticket`.
 They can be both downloaded at https://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=289 and https://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=272 respectively.
 
+Lets start by selecting for both files the 1st Quarter of 2011.
 When downloading the files, as selecting all variables will result on two large files, please select the variables on the table below. Note that Coupon and Ticket have different variables.
 
 ```R
