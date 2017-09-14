@@ -32,3 +32,5 @@ After, please install the Data.Table and Dplyr packages by typing the code menti
 install.packages("data.table")
 install.packages("dplyr")
 ```
+
+Feel free to bring your own data and data challenges for the class. If possible, send me an e-mail telling me what is the issue with your big files and what would you like to achieve.
