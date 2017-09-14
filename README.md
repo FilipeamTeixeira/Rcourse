@@ -1,6 +1,6 @@
-R course
+# R course
 
-Introduction to handling big data with dplyr and data.table.
+## Introduction to handling big data with dplyr and data.table.
 
 For the course we will first need to download the following data which consists of 2 sets of files, `Coupon` and `Ticket`.
 They can be both downloaded at https://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=289 and https://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=272 respectively.
