@@ -19,7 +19,10 @@ Ticket = "Itinerary ID", "Roundtrip", "Itinerary Yield", "Passengers",
 
 We assume that RStudio has been properly installed, with the latest R version available.
 
-After downloading the files, please install the Data.Table and Dplyr packages by typing the code mentioned below on your RStudio console.
+Start a new project, and copy the .R files included with this repository to its root folder.
+Don't forget to copy as well as the downloaded csv files into a folder named data.
+
+After, please install the Data.Table and Dplyr packages by typing the code mentioned below on your RStudio console.
 
 ```R
 install.packages("data.table")
