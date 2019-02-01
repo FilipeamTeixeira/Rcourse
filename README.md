@@ -1,36 +1,76 @@
-# R course
+---
+title: "R for geographers – Introductory course"
+output: html_document
+---
 
-## Introduction to handling big data with dplyr and data.table.
+<br>  
+  
+This course is open for all geographers working at the department and interested in learning how to work with R. In this introductory course, some R basics will be taught on a step-by-step basis. Bring your own laptop, there will be exercises. No prior knowledge is needed.
+<br>  
 
-For the course we will first need to download the following data which consists of 2 sets of files, `Coupon` and `Ticket`.
-They can be both downloaded at https://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=289 and https://www.transtats.bts.gov/DL_SelectFields.asp?Table_ID=272 respectively.
+**Proposed date:** 26th of February  
+**Proposed time:** 9:00 – 15:00  
+**Proposed place: S8** – lecture room to be confirmed  
+**Course registration:** https://goo.gl/forms/LbEs9fIwxuMdGXtI2  
+**Teachers:** Filipe Marques Teixeira, Jeffrey Verbeurgt, Tom Storme  
+<br>  
 
-Lets start by selecting for both files the 1st Quarter of 2011.
-When downloading the files, as selecting all variables will result on two large files, please select the variables on the table below. Note that Coupon and Ticket have different variables.
+Please bring your own laptop, and install R and RStudio prior to the session. Datasets will be available here beforehand.
+After downloading and installing R, please install the packages below.
 
-```R
-Coupon = "Itinerary ID", "Market ID", "Sequence Number", "Origin City Market ID",  
-"Origin", "Year", "Quarter", "Destination City Market ID", "Destination", "Trip Break", "Operating Carrier", 
-"Distance", "Gateway"
-
-Ticket = "Itinerary ID", "Roundtrip", "Itinerary Yield", "Passengers",
-"Itinerary Fare", "Bulkfare Indicator", "Distance Full"
+```{r eval=FALSE}
+install.packages(c("data.table", "tidyverse", "ff", "feather"))
 ```
+<br>  
 
-We assume that RStudio has been properly installed, with the latest R version available.
+### Proposed program
+1. **Getting Started**
+-	Why use R?
+-	Why use Rstudio
+-	Basic R syntax
+-	Write your first script  
 
+2. **First programming with R**
+-	R is vector-based (!)
+-	R functions
+-	R packages
+-	Basic Arithmetic, Indexing, Comparing values
+-	Tips and tricks (Code structure and conventions)  
 
-### Preparing the project
+3. **More Programming with R**
+-	Naming values in a vector
+-	Working with text values
+-	R objects (factors, matrix, data frame, list, tibble)
+-	If-else, for-loops and switch()
+-	One big apply-family  
 
-Start a new project, and copy the .R files included with this repository to its root folder.
-Don't forget to copy as well as the downloaded csv files into a folder named data.
-Rename the files to `Coupon 2011Q1.csv` and `Ticket 2011Q1.csv` respectively. Usually it is possible to go around renaming the files but I'll leave that for another course.
+4. **Importing and writting data**
+-	Load flat files using base R functions
+-	readr & data.table (fread, fwrite)
+-	Import and manipulate Excel-files
+-	Import from relational databases
+-	RDS and RDA
+-	ff and feather  
 
-After, please install the Data.Table and Dplyr packages by typing the code mentioned below on your RStudio console.
+5. **Tidyverse for proper data science**
+-	dplyr and piping
+-	lubridate (dates), stringr (strings)
+-	tidyr
+-	ggplot2
+- leaflet and sf (geocomputation package)
 
-```R
-install.packages("data.table")
-install.packages("dplyr")
-```
+6. **data.table**
+-	DT[i, j, by]
+-	Operations in i and operations in j
+-	Select, subset, group, order, create
+-	.N and other special operators  
 
-Feel free to bring your own data and data challenges for the class. If possible, send me an e-mail telling me what is the issue with your big files and what would you like to achieve.
+7. **Increase Speed**
+-	using dplyr and data.table together
+-	why you shouldn’t use SQL
+-	Exploring binary file formats (hadoop, hdf5)
+
+8. **Showing off with R**
+-	Reports with R markdown
+-	Interactive visuals with Shiny and leaflet
+-	Introduction to network analysis with igraph
