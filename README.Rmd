@@ -8,7 +8,7 @@ output: github_document
 This course is open for all geographers working at the department and interested in learning how to work with R. In this introductory course, some R basics will be taught on a step-by-step basis. Bring your own laptop, there will be exercises. No prior knowledge is needed.
 <br>  
 
-**Proposed date:** 26th of March  
+**Proposed date:** 28th of March  
 **Proposed time:** 9:00 – 15:00  
 **Proposed place: S8** – lecture room to be confirmed  
 **Course registration:** https://goo.gl/forms/LbEs9fIwxuMdGXtI2  
