@@ -10,7 +10,7 @@ laptop, there will be exercises. No prior knowledge is needed. <br>
 
 **Proposed date:** 28th of March  
 **Proposed time:** 9:00 – 15:00  
-**Proposed place: S8** – lecture room to be confirmed  
+**Proposed place: S8** – PC-lokaal 0.1 Victor Van Straelen  
 **Course registration:** <https://goo.gl/forms/LbEs9fIwxuMdGXtI2>  
 **Teachers:** Filipe Marques Teixeira, Jeffrey Verbeurgt, Tom Storme  
 <br>
@@ -114,4 +114,9 @@ install.packages(c("data.table", "tidyverse", "ff", "feather"))
 
   - Reports with R markdown
   - Interactive visuals with Shiny and leaflet
-  - Introduction to network analysis with igraph
+  - Introduction to network analysis with
+igraph
+
+#### Extra Data to download
+
+<https://www.dropbox.com/sh/0l8m6mkor9wlmk4/AADqdC7pu66TlARCij0iUSkRa?dl=0>
