@@ -16,7 +16,8 @@ This course is open for all geographers working at the department and interested
 <br>  
 
 Please bring your own laptop, and install R and RStudio prior to the session. Datasets will be available here beforehand.
-After downloading and installing R, please install the packages below.
+Participants are expected to arrange their own food/drinks. There are vending machines along with a student restaurant nearby. We'll upload a schedule as soon as possible.
+You can download R and RStudio here https://www.rstudio.com/products/rstudio/download/#download. After downloading and installing R, please install the packages below.
 
 ```{r eval=FALSE}
 install.packages(c("data.table", "tidyverse", "ff", "feather"))

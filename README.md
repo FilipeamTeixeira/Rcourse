@@ -16,8 +16,12 @@ laptop, there will be exercises. No prior knowledge is needed. <br>
 <br>
 
 Please bring your own laptop, and install R and RStudio prior to the
-session. Datasets will be available here beforehand. After downloading
-and installing R, please install the packages below.
+session. Datasets will be available here beforehand. Participants are
+expected to arrange their own food/drinks. There are vending machines
+along with a student restaurant nearby. We’ll upload a schedule as soon
+as possible. You can download R and RStudio here
+<https://www.rstudio.com/products/rstudio/download/#download>. After
+downloading and installing R, please install the packages below.
 
 ``` r
 install.packages(c("data.table", "tidyverse", "ff", "feather"))
