@@ -83,7 +83,6 @@ install.packages(c("data.table", "tidyverse", "ff", "feather"))
   - lubridate (dates), stringr (strings)
   - tidyr
   - ggplot2
-  - leaflet and sf (geocomputation package)
 
 <!-- end list -->
 
@@ -113,7 +112,8 @@ install.packages(c("data.table", "tidyverse", "ff", "feather"))
 <!-- end list -->
 
   - Reports with R markdown
-  - Interactive visuals with Shiny and leaflet
+  - leaflet and sf (geocomputation package)
+  - Interactive visuals with Shiny
   - Introduction to network analysis with
 igraph
 
