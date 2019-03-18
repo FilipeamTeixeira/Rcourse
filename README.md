@@ -9,7 +9,17 @@ some R basics will be taught on a step-by-step basis. Bring your own
 laptop, there will be exercises. No prior knowledge is needed. <br>
 
 **Proposed date:** 28th of March  
-**Proposed time:** 9:00 – 15:00  
+**Proposed schedule**
+
+  - 9:00 to 10:00 - **Basic R** (1,2,3)
+  - 10:00 to 10:15 - Coffee Break
+  - 10:15 to 12:00 - **Importing Data and the tidyverse** (4,5)
+  - 12:00 to 12:45 - Lunch Break
+  - 12:45 to 14:00 - **Data.Table and speeding up your code** (6,7)
+  - 14:00 to 15:00 - **Sf, Shiny and Leaflet** (8)
+  - 15:00 to 15:15 - Coffee Break
+  - 15:15 to 16:00 - **Test your data and Q\&A**
+
 **Proposed place: S8** – PC-lokaal 0.1 Victor Van Straelen  
 **Course registration:** <https://goo.gl/forms/LbEs9fIwxuMdGXtI2>  
 **Teachers:** Filipe Marques Teixeira, Jeffrey Verbeurgt, Tom Storme  
@@ -21,10 +31,11 @@ expected to arrange their own food/drinks. There are vending machines
 along with a student restaurant nearby. We’ll upload a schedule as soon
 as possible. You can download R and RStudio here
 <https://www.rstudio.com/products/rstudio/download/#download>. After
-downloading and installing R, please install the packages below.
+downloading and installing R, please install the packages
+below.
 
 ``` r
-install.packages(c("data.table", "tidyverse", "ff", "feather"))
+install.packages(c("data.table", "tidyverse", "shiny", "leaflet", "lubridate", "igraph", "tidyr", "sf", "sp", "rgdal"))
 ```
 
 <br>
@@ -73,9 +84,7 @@ install.packages(c("data.table", "tidyverse", "ff", "feather"))
   - Load flat files using base R functions
   - readr & data.table (fread, fwrite)
   - Import and manipulate Excel-files
-  - Import from relational databases
   - RDS and RDA
-  - ff and feather
 
 <!-- end list -->
 
@@ -107,7 +116,6 @@ install.packages(c("data.table", "tidyverse", "ff", "feather"))
 
   - using dplyr and data.table together
   - why you shouldn’t use SQL
-  - Exploring binary file formats (hadoop, hdf5)
 
 <!-- end list -->
 
