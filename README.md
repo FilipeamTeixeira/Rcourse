@@ -21,6 +21,9 @@ laptop, there will be exercises. No prior knowledge is needed. <br>
   - 15:15 to 16:00 - **Test your data and Q\&A**
 
 **Proposed place: S8** – PC-lokaal 0.1 Victor Van Straelen  
+After entering the S8 building take the first door on the right, after
+the elevators. Go left, go through the double doors and follow the long
+corridor. The mentioned room can be found on the left.  
 **Course registration:** <https://goo.gl/forms/LbEs9fIwxuMdGXtI2>  
 **Teachers:** Filipe Marques Teixeira, Jeffrey Verbeurgt, Tom Storme  
 <br>
