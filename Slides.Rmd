@@ -18,8 +18,14 @@ output: ioslides_presentation
 **files** `file-example.R`  
 **object/function names** `object_example`, `my_function()`  
 **assign values** `my_value <- 7`  
+**space** `3+ 1` (don't do this) better to always do `3 + 1` to increase visibility.  
 
 Never but ever use `my_value = 7` it's confusing to read and it can cause problems.
+
+## Do's and Dont's
+
+- Don't store too much dataa into the environment. All data loaded into R is loaded into your RAM (random-access memory).  
+- Keep a clean script that you can run whenever you need it.
 
 ## 4. Importing and writting data
 

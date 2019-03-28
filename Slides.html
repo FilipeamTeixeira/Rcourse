@@ -3121,9 +3121,16 @@ if (document.readyState !== "loading" &&
 
 </article></slide><slide class=""><hgroup><h2>Naming conventions</h2></hgroup><article  id="naming-conventions">
 
-<p><strong>files</strong> <code>file-example.R</code><br/><strong>object/function names</strong> <code>object_example</code>, <code>my_function()</code><br/><strong>assign values</strong> <code>my_value &lt;- 7</code></p>
+<p><strong>files</strong> <code>file-example.R</code><br/><strong>object/function names</strong> <code>object_example</code>, <code>my_function()</code><br/><strong>assign values</strong> <code>my_value &lt;- 7</code><br/><strong>space</strong> <code>3+ 1</code> (don’t do this) better to always do <code>3 + 1</code> to increase visibility.</p>
 
 <p>Never but ever use <code>my_value = 7</code> it’s confusing to read and it can cause problems.</p>
+
+</article></slide><slide class=""><hgroup><h2>Do’s and Dont’s</h2></hgroup><article  id="dos-and-donts">
+
+<ul>
+<li>Don’t store too much dataa into the environment. All data loaded into R is loaded into your RAM (random-access memory).<br/></li>
+<li>Keep a clean script that you can run whenever you need it.</li>
+</ul>
 
 </article></slide><slide class=""><hgroup><h2>4. Importing and writting data</h2></hgroup><article  id="importing-and-writting-data">
 
