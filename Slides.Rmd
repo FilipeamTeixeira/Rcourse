@@ -1,0 +1,679 @@
+---
+title: "R for data science"
+author: "Filipe Teixeira"
+date: "28 March 2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+#knitr::opts_chunk$set(tidy.opts=list(width.cutoff=60),tidy=TRUE)
+```
+## Giraffes: Reality or myth
+
+![Aren't giraffes just tall dogs?](images/giraffe.jpg)
+
+
+## Naming conventions
+
+**files** `file-example.R`  
+**object/function names** `object_example`, `my_function()`  
+**assign values** `my_value <- 7`  
+
+Never but ever use `my_value = 7` it's confusing to read and it can cause problems.
+
+## 4. Importing and writting data
+
+-	Load flat files using base R functions
+-	readr & data.table (fread, fwrite)
+-	Import and manipulate Excel-files
+-	RDS and RDA
+
+## Load flat files using base R functions
+
+First we'll use `read.csv()` to load two datasets.
+
+- Chopstick Effectiveness
+- Marijuana Street Price
+
+```{r echo=TRUE, eval = FALSE}
+chp_eff <- read.csv("data/chopstick-effectiveness.csv", header = TRUE)
+marijuana_price <- read.csv("data/marijuana_price.csv", header = TRUE)
+```
+
+`read.csv()` is appropriate for small datasets, but for larger csv files it can be a pain in the `R`.
+
+## fread
+
+Lets try loading the `OD_2018Q1.csv` file which contains a 10% sample of US domestic flight tickets.
+
+```{r echo=TRUE, eval = FALSE}
+system.time(read.csv("data/OD_2018Q1.csv"))
+```
+
+
+Now lets try the same with the data.table package
+```{r echo=TRUE, eval = FALSE}
+library(data.table)
+system.time(fread("data/OD_2018Q1.csv", stringsAsFactors = FALSE))
+```
+It can be up to 20 times faster.
+
+## fread - part II
+
+Let's import a big file.
+(factors are awful mainly when you're importing the file)
+```{r echo=TRUE, eval = FALSE}
+flights_18Q1 <- fread("data/OD_2018Q1.csv", stringsAsFactors = FALSE)
+```
+
+Now let's write it again under a new name.
+
+```{r echo=TRUE, eval = FALSE}
+fwrite(flights_18Q1, "flights.csv")
+```
+
+## RDS
+
+R provides two types of datastorage, RDA and RDS.
+
+Lets first try RDS.
+```{r echo=TRUE, eval = FALSE}
+chp_eff <- read.csv("data/chopstick-effectiveness.csv",
+                    header = TRUE)
+
+saveRDS(chp_eff, file = "my_rds_file.rds")
+my_new_dataset <- readRDS("my_rds_file.rds")
+```
+
+## RDA
+
+Now lets try RDA.
+```{r echo=TRUE, eval = FALSE}
+rda_df <- chp_eff # Copies chp_eff dataset to rda_df for reproducibility
+save(rda_df, file = "my_rds_file.rda")
+rm(rda_df) # You'll later see why we remove this part
+my_pretty_rda <- load("my_rds_file.rda")
+```
+You see that the rda_df file we wanted was loaded with that name and not as my_pretty_rda. RDS files are often preferable, despite being slightly slower to load than RDA files.
+
+## 5. Tidyverse for proper data science
+
+-	dplyr and piping
+-	lubridate (dates), stringr (strings)
+-	tidyr
+-	ggplot2
+
+
+## Piping
+
+Pipes `%>%` come from the package `magrittr` but are included in pretty much of all of the tidyverse.
+Their usage is simple. When using a `%>%` after a dataframe, the dataframe reference is transported to the rest of the code.
+
+```{r echo=TRUE, eval = FALSE}
+library(dplyr)
+chp_eff %>%
+  summarise(mean = mean(Chopstick.Length))
+```
+
+This can be useful in many contexts as it makes code readable.
+
+## Dplyr
+
+Dplyr is part of the tidyverse package and it was created initially by Hadley Wickham. The main foundations of this package are readeability and dataframe structure (called tidydata). The process of working with tidydata is Import - Tidy - (Transform - Visualize - Model) - Communicate.
+
+## Tibles
+
+```{r echo=TRUE, eval = FALSE}
+library(tibble)
+as_tibble(chp_eff)
+as.data.frame(chp_eff)
+```
+
+Running `as_tibble` and `as.data.frame` shows that tibble can carry more information on the dataframe being used. This can be useful when working with large datasets.
+
+## Group_by, Summarize, Mutate, Filter, Select
+
+The `tidyverse` has 5 important functions to manipulate datasets.
+`group_by()`, `summarise()`, `mutate()` `filter()` and `select()`
+
+```{r echo=TRUE, eval = FALSE}
+library(dplyr)
+marijuana_price <- read.csv("data/marijuana_price.csv",
+                            header = TRUE)
+
+marijuana_price %>%
+  group_by(State) %>% # groups by individual
+  summarise(highq_mean = mean(HighQ),
+            highq_sum = sum(HighQN))
+```
+
+
+## Group_by, Summarize, Mutate
+
+```{r echo=TRUE, eval = FALSE}
+library(dplyr)
+library(lubridate) # To get month
+
+marijuana_price %>%
+  mutate(month = month(date)) %>% 
+  group_by(State, month) %>%
+  summarise(highq_mean = mean(HighQ),
+            highq_sum = sum(HighQN))
+```
+
+## Group_by, Summarize, Mutate, Filter
+
+```{r echo=TRUE, eval = FALSE}
+library(dplyr)
+library(lubridate) # To get month
+
+marijuana_price %>%
+  mutate(month = month(date)) %>% 
+  filter(month == 1, HighQN >= 600) %>%
+  group_by(State) %>%
+  summarise(highq_mean = mean(HighQ),
+            highq_sum = sum(HighQN))
+```
+
+Note the  `==`. In R conditions are matched with `==`, `!=`, `>`, `>=`,  `<` and `<=`.
+
+## Select
+
+```{r echo=TRUE, eval = FALSE}
+library(dplyr)
+
+marijuana_price %>%
+  select(State, HighQ)
+
+marijuana_price %>%
+  select(-LowQ, -LowQN)
+
+```
+
+`-` before the object, removes it from selection.
+
+## Magical if if if if (case_when)
+
+```{r echo=TRUE, eval = FALSE}
+library(dplyr)
+
+marijuana_price <- read.csv("data/marijuana_price.csv",
+                            header = TRUE)
+
+marijuana_quarter <- marijuana_price %>%
+  mutate(month = month(date))
+
+marijuana_quarter %>%
+  mutate(quarter = case_when(month >= 1 & month <= 3 ~ "Q1",
+                             month >= 4 & month <= 6 ~ "Q2",
+                             month >= 7 & month <= 9 ~ "Q3",
+                             month >= 10 & month <= 12 ~ "Q4"))
+
+```
+
+## Joining "stuff"
+
+```{r echo=TRUE, eval = FALSE}
+library(dplyr)
+library(lubridate) # To get month
+
+stacking <- read.csv("data/world-sport-stacking.csv",
+                            header = TRUE)
+
+stacking_comp <- read.csv("data/stacking_comp.csv")
+
+stacking_full <- left_join(stacking, stacking_comp,
+                           by = "Competitor")
+
+```
+
+There are several types of join which can be found in detail here https://dplyr.tidyverse.org/reference/join.html
+
+## Lubridate
+
+```{r echo=TRUE, eval = FALSE}
+library(lubridate)
+
+lubridate::month("2011-04-24")
+lubridate::day("2011-04-24")
+lubridate::wday("2011-04-25", label = TRUE)
+
+time <- ymd_hms("2010-12-13 15:30:30")
+with_tz(time, "America/Chicago")
+
+```
+
+More information on lubridate here https://lubridate.tidyverse.org.
+
+## Stringr
+
+
+```{r echo=TRUE, eval = FALSE}
+library(stringr)
+
+word <- "Rindfleischetikettierungsüberwachungsaufgabenübertragungsgesetz"
+calvin1 <- "It's not denial."
+calvin2 <- "I'm just selective about the reality I accept."
+
+str_length(word)
+str_count(word, "e")
+str_count(word, "ü")
+
+calvin <- paste(calvin1, calvin2)
+
+str_split(calvin, " ")
+str_split(calvin, "[.]")
+
+```
+
+
+
+## Tidyr - Spread
+
+`data %>%`  
+`spread(grouped_var, value)`
+
+```{r echo=TRUE, eval = FALSE}
+library(tidyr)
+library(dplyr)
+
+sleep <- read.csv("data/sleep.csv")
+sleep_sp <- sleep %>%
+  spread(group, extra)
+sleep_sp
+
+```
+
+
+## Tidyr - Gather
+
+`data %>%`  
+`gather(new_var, key_val, col_a:col_b)`
+
+```{r echo=TRUE, eval = FALSE}
+library(tidyr)
+library(dplyr)
+
+colnames(sleep_sp) <- c("patient", "drug_1", "drug_2")
+sleep_sp %>%
+  gather(drug, patient, drug_1:drug_2)
+
+```
+
+
+## ggplot2
+
+
+```{r echo=TRUE, eval = FALSE}
+library(tidyverse)
+
+head(mpg)
+ggplot(mpg, aes(displ, hwy, colour = class)) + 
+  geom_point()
+
+```
+`ggplot(data, aes(x, y, colour))`  # graph  
+`geom_point` # type of graph
+
+## ggplot2
+
+
+```{r echo=TRUE, eval = FALSE}
+library(tidyverse)
+
+ggplot(mpg, aes(displ, hwy, colour = class, size = displ)) + 
+  geom_point()
+
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point(aes(colour = class, size = displ)) #same as previous code block
+
+ggplot(mpg, aes(displ, hwy, colour = class)) + 
+  geom_point(size = .3)
+
+```
+
+The `aes()` section is meant for variables affecting aesthetics. For fixed sizes, colors, etc., define the variable outside of aes. 
+
+
+## 6. data.table
+
+## DT[i, j, by]
+
+Working in i.
+
+```{r echo=TRUE, eval = FALSE}
+
+library(data.table)
+
+DT <- fread("data/OD_2018Q1.csv")
+class(DT)
+DT <- as.data.table(DT) #in case we hadn't import it with fread.
+colnames(DT)
+
+JFK_ATL <- DT[origin == "JFK" & dest == "ATL"]
+#note that we separate multiple conditions with &
+JFK_ATL[order(-itin_yield)]
+
+
+```
+
+## DT[i, j, by]
+
+Working in j.
+
+```{r echo=TRUE, eval = FALSE}
+
+library(data.table)
+
+DT[,dest] #returns column as vector
+DT[,.(dest)] #returns data.table
+
+DT[origin == "JFK",.(itin_yield = mean(itin_yield))]
+
+DT[,.(itin_yield = mean(itin_yield)), by = c("origin", "dest")]
+
+```
+
+i does operations for filtering and ordering
+j does operations for calculating new fields, similar to `mutate()` in dplyr.
+by is similar to `group_by()` in dplyr.
+
+## .N and other special operators
+
+```{r echo=TRUE, eval = FALSE}
+
+library(data.table)
+
+DT[,.(itin_yield = mean(itin_yield), count = .N),
+   by = c("origin", "dest")]
+
+DT[,.(itin_yield = mean(itin_yield), count = .N),
+   by = c("origin", "dest")][order(origin, dest)]
+
+```
+`.N` counts number of elements in grouped data.  
+We can chain data.table data, by stacking `[]`.  
+`DT[...][...][...][...]`
+
+## .N and other special operators
+
+```{r echo=TRUE, eval = FALSE}
+
+library(data.table)
+
+JFK <- DT[origin == "JFK"]
+
+JFK[,`:=`(new_var, itin_fare/distance)]
+head(JFK) #new var was calculated
+
+JFK[,new_var2:=itin_fare/distance]
+head(JFK) #new var was calculated
+
+
+```
+Why using the `:=` operator. As it doesn't create a new table, it's faster to calculate new variables. However, it adds the new column immediately even though we didn't use the `<-` operator. It only does row-wise operations and it doesn't aggregate data.
+
+## 7. Increase Speed
+
+```{r echo=TRUE, eval = FALSE}
+
+system.time(DT[order(mkt_id, seq_num)]) #data.table
+
+system.time(arrange(DT, mkt_id, seq_num)) #dplyr
+
+system.time(DT[,.(mean_fare = mean(itin_fare),
+                  passengers = sum(passengers),
+                  mean_yield = mean(itin_yield)),
+               by = c("origin", "dest")]) #data.table
+
+system.time(DT %>%
+               group_by(origin, dest) %>%
+               summarise(mean_fare = mean(itin_fare),
+                         passengers = sum(passengers),
+                         mean_yield = mean(itin_yield))
+              ) #dplyr
+```
+
+## 7. Increase Speed
+*elapsed Time* is the time charged to the CPU(s) for the expression.  
+*user Time* is the wall clock time. The time that you as a user experienced.  
+
+When `elapsed < user` it means that the package is using the multi-core possibilities within your computer.
+
+## Using dplyr and data.table together
+
+```{r echo=TRUE, eval = FALSE}
+df$stop_times %>%
+  left_join(trip, by = "trip_id") %>%
+  group_by(trip_id, date) %>%
+  arrange(trip_id, date, stop_sequence) %>%
+  mutate(dest = lead(stop_id)) %>%
+  as.data.table() %>%
+  .[!is.na(dest)] %>%  # data.table section to improve speed
+  {if (!is.null(dayf)) .[date %in% dayf] else .} %>%
+  as.tibble() %>%
+  mutate(hours = hour(hms(arrival_time))) %>% #new
+  select(origin = stop_id, dest,
+         travel_time, trip_id, arrival_time,
+         departure_time, stop_sequence, hours) %>%
+  group_by(origin, dest, hours) %>%
+  summarise(travel_time = round(mean(travel_time)),
+            freq = n()) %>%
+  group_by(origin, dest) %>%
+  summarise(travel_time = round(mean(travel_time)),
+            freq = mean(freq)) %>%
+  mutate(weight = 4 * sqrt(travel_time/freq))
+```
+
+## Why you shouldn’t use SQL
+
+**SQL**  
+
+- Database setup can be messy
+- Relational databases need strict structure
+- Non relational databases are prone to integrity issues
+
+**data.table**  
+
+- Can store data in csv
+- Faster or same speed as SQL query
+- No need to have external database
+- Portability between computers without any specific data requirements
+
+## 8. Showing off with R
+
+Project developed by Freke Caset and Filipe Teixeira
+
+https://railacc.ugent.be/GTFScentrality/
+
+## sf (simple features)
+
+Why simple features? It is a widely supported data model that underlies data structures in many GIS applications including QGIS and PostGIS. We do have already the sp package for that, so why the sf package.
+
+- sf package allows treating sf objects as data frames
+- it can be combined with %>%
+- function names are intuitive and start with st_
+
+## sf (simple features)
+
+```{r echo=TRUE, eval = FALSE}
+library(sf)
+library(sp)
+
+point <- st_point(c(5, 2))
+plot(point) #point
+
+linestring <- rbind(c(5,2),c(1,3),c(3,4), c(3,2))
+linestring <- st_linestring(linestring)
+plot(linestring) #linestring
+
+polygon_border <- rbind(c(1,5), c(2,2),
+                        c(4,1), c(4,4), c(1,5))
+polygon_hole <- rbind(c(2,4), c(3,4),
+                      c(3,3), c(2,3), c(2,4))
+polygon_with_hole_list <- list(polygon_border, polygon_hole)
+polygon_with_hole <- st_polygon(polygon_with_hole_list)
+plot(polygon_with_hole)
+
+```
+
+## leaflet
+
+```{r echo=TRUE, eval = FALSE}
+library(leaflet)
+library(rgdal)
+
+jfk_shp <- readOGR("data/jfk.shp")
+jfk_shp <- spTransform(jfk_shp,
+                       CRS("+proj=longlat +datum=WGS84"))
+class(jfk_shp)
+
+colnames(jfk_shp@data) #for popup window
+
+leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addPolygons(data = jfk_shp, color = "royalblue", weight = 1,
+               opacity = .6, label = ~paste(pop2010))
+
+```
+
+## leaflet
+
+`leaflet()` creates support for map
+`addProviderTiles()` adds basemap
+`addPolygons()` adds polygons
+
+One characteristic of leaflet is that the `aes()` or individual variables are set with a `~`.
+
+
+## Interactive visuals with Shiny (example)
+
+[www.railacc.ugent.be](www.railacc.ugent.be)   
+  
+**user:** stations_radar   
+**password:** Rcourse  
+
+## Interactive visuals with Shiny
+
+Anatomy of a Shiny server app.
+
+- **server.R**  - handles all data generation and filtering
+- **ui.R**  - handles all user interaction 
+- **global.R**  - to load data
+
+
+## Interactive visuals with Shiny
+
+``` {r echo=TRUE, eval = FALSE}
+library(shiny)
+
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+    theme = "bootstrap.css",
+
+    # Application title
+    titlePanel("Old Faithful Geyser Data"),
+
+    # Sidebar with a slider input for number of bins 
+    sidebarLayout(
+        sidebarPanel(
+            sliderInput("bins",
+                        "Number of bins:",
+                        min = 1,
+                        max = 50,
+                        value = 30)
+        ),
+
+        # Show a plot of the generated distribution
+        mainPanel(
+           plotOutput("distPlot")
+        )
+    )
+)
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+
+    output$distPlot <- renderPlot({
+        # generate bins based on input$bins from ui.R
+        x    <- faithful[, 2]
+        bins <- seq(min(x), max(x),
+                    length.out = input$bins + 1)
+
+        # draw the histogram with the specified number of bins
+        hist(x, breaks = bins,
+             col = 'darkgray', border = 'white')
+    })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+
+## Introduction to network analysis with igraph
+
+```{r echo=TRUE, eval = FALSE}
+library(igraph)
+library(data.table)
+library(dplyr)
+
+OD <- fread("data/OD_2018Q1.csv")
+OD <- OD %>%
+  group_by(origin, dest) %>%
+  summarise(passengers = sum(passengers),
+            itin_yield = mean(itin_yield),
+            itin_fare = mean(itin_fare))
+
+g <- graph_from_data_frame(OD, directed = TRUE)
+
+summary(g)
+
+
+```
+
+
+## Introduction to network analysis with igraph
+
+```{r echo=TRUE, eval = FALSE}
+
+E(g)$passengers
+E(g)$itin_yield
+
+degree(g)
+
+V(g)$degree <- degree(g)
+summary(g)
+V(g)$degree
+
+eigen_centrality(g)$vector
+closeness(g)
+
+
+plot(g, vertex.label = NA, vertex.size = 4,
+     vertex.frame.color = "white",
+     edge.width = .1, edge.arrow.mode = 0,
+     layout = layout_on_sphere(g))
+
+```
+
+
+## Introduction to network analysis with igraph
+
+```{r echo=TRUE, eval = FALSE}
+library(tidygraph)
+
+g %>%
+  as_tbl_graph() %>%
+  activate(nodes) %>%
+  mutate(degree = centrality_degree())
+
+```
+- The igraph object has to be converted to tbl_graph
+- The function `activate()` tells tidygraph if you're working with `nodes` or `edges`.
+
+## Thank you
+
+Please fill in this survey.
+
+[https://forms.gle/mVWuSC8SJJc8bUXd8](https://forms.gle/mVWuSC8SJJc8bUXd8)
+  

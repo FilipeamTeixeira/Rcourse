@@ -1,0 +1,403 @@
+---
+title: "Intro to R"
+author: "Jeffrey Verbeurgt"
+date: "28 March 2019"
+output:
+  ioslides_presentation: default
+  slidy_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## 1. Getting Started
+
+- What is R?
+-	Why use R?
+- Why use Rstudio?
+- Basic R syntax
+- Write your first script
+
+## What is the R-project?
+
+- A language and environment for statistical computing and graphics
+- A community of programmers, users and academics
+- A powerful tool that makes publication-quality graphics and data visualizations
+- A collection of freely distributed add-on packages
+- A toolbox for extensive automation of your work
+
+
+<div class="notes">
+For Python users: the well-known R ggplot2-package is an excellent alternative for matplotlib or plotnine
+
+The amount of add-on packages is huge, if you want to do something "special": there probably exist a package for it
+
+One uses R for automation of your work, saving you time to do real work
+
+</div>
+
+
+## Why use R?
+
+- Automation of analyses
+- Sharing analyses & scripts
+- Reproducible analyses
+- State of the art packages
+- Quick exploration of data
+
+<div class="notes">
+Don't use R if you expect point-and-click ease like SPSS
+
+Don't spend time on the steep learning curve if you intend to do only one single analysis
+
+The amount of state-of-the-art packages is unbelievable, however don't use models you don't understand
+</div>
+
+## Why use Rstudio?
+
+- Gives a good overview with the 4 work areas
+    - Source
+    - Console
+    - Environment (+ history)
+    - Files, Plots, Packages, Help and Viewer
+- Easier to use than R console
+- Create Notebook, Markdown (slides, pdf), Shiny Web App,...
+
+<div class="notes">
+In 'source' you can create scripts etc
+In 'console': type in 1 + 1
+
+R Markdown Notebook: same as the well known Python Jupyter Notebook
+Markdown: used for these slides, also easy to create reports / course notes /...
+Shiny: Filipe will show more of this later today
+</div>
+
+## Basic R syntax
+Let's start with some basic commands in the console:
+```{r echo=TRUE, eval = FALSE}
+print("Hello world!")
+```
+R responds immediately
+```{r echo=FALSE, eval = TRUE}
+print("Hello world!")
+```
+
+Now let's try to calculate the sum of five numbers:
+```{r echo=TRUE, eval = TRUE}
+1 + 2 + 3 + 4 + 5
+```
+
+## Basic R syntax
+You took the sum of 5 numbers, in a vector format this is:
+```{r echo=TRUE, eval = TRUE}
+c(1, 2, 3, 4, 5)
+```
+
+The sum of these 5 numbers is a lot of typing:
+```{r echo=TRUE, eval = TRUE}
+c(1:5)
+```
+And in R it's easy to take the sum of a vector:
+```{r echo=TRUE, eval = TRUE}
+sum(1:5)
+```
+
+## Write your first script
+Choose 'File' -> 'New File' -> 'R Script' 
+```{r echo=TRUE, eval = TRUE}
+x <- 1:5
+x
+```
+```{r echo=TRUE, eval = TRUE}
+y <- 10
+x + y
+```
+
+
+## Write your first script
+Note: calculations only get stored when they are assigned
+```{r echo=TRUE, eval = TRUE}
+x
+```
+```{r echo=TRUE, eval = TRUE}
+y
+```
+```{r echo=TRUE, eval = TRUE}
+z <- x + y
+z
+```
+
+## Write your first script
+Now let's make a new script
+```{r echo=TRUE, eval = FALSE}
+h <- "Hello,"
+yourName <- readline("What is your name?")
+print(paste(h, yourName))
+```
+
+```{r echo=FALSE, eval = TRUE}
+h <- "Hello,"
+yourName <- "Jeffrey"
+```
+
+```{r echo=FALSE, eval = TRUE}
+print(paste(h, yourName))
+```
+
+
+## 2. First programming with R
+
+- R is vector-based
+- R functions
+- R packages
+- Basic Arithmetic, Indexing, Comparing values
+- Code structure and conventions
+
+
+## R is vector-based
+R is clever when it comes to vectors:
+```{r echo=TRUE, eval = TRUE}
+title <- c("King", "Queen")
+firstname <- c("Philippe", "Mathilde")
+paste(title, firstname)
+```
+
+```{r echo=TRUE, eval = TRUE}
+title <- c("King")
+firstname <- c("Philippe", "Mathilde")
+paste(title, firstname)
+```
+
+## functions in R
+- A lot of functions in R
+- Always followed by parentheses ()
+- They often have arguments placed between ()
+```{r echo=TRUE, eval = FALSE}
+print()
+```
+- Check out the Help page
+```{r echo=TRUE, eval = FALSE}
+?print()
+```
+```{r echo=TRUE, eval = TRUE}
+print("Hello world!")
+```
+
+
+## Packages in R
+- The big power of R: packages
+- Packages are groups of functions written by other people
+- Packages can be downloaded from repositories
+```{r echo=TRUE, eval = FALSE}
+install.packages("stringr")
+```
+```{r echo=TRUE, eval = TRUE}
+library("stringr")
+```
+```{r echo=TRUE, eval = FALSE}
+?stringr
+```
+
+<div class="notes">
+Repositories are special websites containing packages
+
+Let me show you an example of a package: stringr
+https://cran.r-project.org/web/packages/stringr/index.html
+</div>
+
+## Indexing
+```{r echo=TRUE, eval = TRUE}
+stringList <- c("Geography", "Rules", "!")
+paste(stringList[1], stringList[3])
+stringList[-2]
+integerList <- c(1, 5, 10)
+integerList[1] + integerList[3]
+```
+
+## Comparing values
+```{r echo=TRUE, eval = TRUE}
+1 < 5
+1 >= 5
+"Geography" != "Engineering"
+"Geography" > "Engineering"
+```
+
+
+## Comparing values
+```{r echo=TRUE, eval = TRUE}
+string1 <- "Geography"
+string2 <- "geography"
+identical(string1, string2)
+```
+
+
+## Code structure and conventions
+- Choose a correct name
+    - names must start with a letter or a dot
+    - names should only contain letters, numbers, underscore, characters and dots
+    - you can't use special keywords like break, else, FALSE,...
+    - R is case sensitive
+    - Choose a clear name that you understand (even a year later)
+    - Choose a naming style: camelCase, dotted style,..
+
+## Code structure and conventions
+- Structuring your code
+    - Use a quotation mark to start a string
+    ```{r echo=TRUE, eval = FALSE}
+"This is the first line
+    This is the second line"
+```
+    - You can end an incomplete line with an operator
+    ```{r echo=TRUE, eval = TRUE}
+z <- 25 + 5 +
+      10 + 2
+z
+```    
+
+## Code structure and conventions
+    - You can open a parenthesis for a function
+```{r echo=TRUE, eval = TRUE}
+paste("Hello",
+      "world!")
+```   
+    - Use comments for extra information
+```{r echo=TRUE, eval = TRUE}
+paste("Hello",
+      "world!")
+```
+
+
+## 3. More Programming with R
+
+- Naming values in a vector
+- R objects (factors, matrix, data frame, list, tibble)
+- If-else and for-loops
+- One big apply-family
+
+
+## Naming values in a vector
+```{r echo=TRUE, eval = TRUE}
+month.days <- c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+month.name #is a built-in dataset
+names(month.days) <- month.name
+month.days
+```
+
+## R objects: factors
+- Factors are categorical vectors with only a few levels
+    - hot/cold, male/female, small/medium/large
+```{r echo=TRUE, eval = TRUE}
+status <- c("Lo", "Hi", "Med", "Med", "Hi")
+factor(status)
+ordered.status <- factor(status, levels = c("Lo", "Med", "Hi"), 
+                         ordered = TRUE)
+ordered.status
+```
+
+<div class="notes">
+factors: hot/cold, male/female, small/medium/large
+</div>
+
+## R objects: list
+think of a list as a big box filled with a set of bags containing all kinds of different stuff
+```{r echo=TRUE, eval = TRUE}
+exampleList <- list(c(1:5), c("A", "B", "C", "D"), c(FALSE, FALSE))
+exampleList
+```
+
+## R objects: matrices
+A matrix can only contain one datatype
+```{r echo=TRUE, eval = TRUE}
+exampleMatrix <- matrix(c("A", 1, TRUE, 2), ncol = 2, nrow = 2)
+exampleMatrix
+typeof(exampleMatrix[1,1])
+typeof(exampleMatrix[1,2])
+```
+
+
+## R objects: dataframes
+- Generalized version of a matrix
+- can contain heterogeneous data
+- is a list of vectors of equal length
+```{r echo=TRUE, eval = TRUE}
+#iris is a built-in dataset
+#head() is used to show the first 6 lines
+head(iris)
+```
+## R objects: dataframes
+- Generalized version of a matrix
+- can contain heterogeneous data
+- is a list of vectors of equal length
+```{r echo=TRUE, eval = TRUE}
+#iris is a built-in dataset
+#str() is used to show the structure
+str(iris)
+```
+
+## If-else
+```{r echo=TRUE, eval = TRUE}
+x <- 5
+if(x < 10){
+  print("x is smaller than 10")
+} else{
+  print("x is not smaller than 10")
+}
+  
+```
+```{r echo=TRUE, eval = TRUE}
+x <- 20
+if(x < 10){
+  print("x is smaller than 10")
+} else{
+  print("x is not smaller than 10")
+}
+  
+```
+
+## for-loops
+```{r echo=TRUE, eval = TRUE}
+for(month in month.name){
+  print(month)
+}
+```
+
+## One big apply-family
+- apply(), sapply() and lapply() help you in applying a function over columns or rows
+- first argument is always the the matrix/array, data frame or list
+- only for apply() you specify in which dimension the function should work (1=row, 2=column)
+- sapply() and lapply() work only on data frames or lists
+- check out the iris dataset
+```{r echo=TRUE, eval = TRUE}
+head(iris)
+```
+
+## One big apply-family
+```{r echo=TRUE, eval = TRUE}
+apply(iris, 2, min)
+```
+
+```{r echo=TRUE, eval = TRUE}
+sapply(iris, class)
+```
+
+## One big apply-family
+
+```{r echo=TRUE, eval = TRUE}
+lapply(iris, class)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
