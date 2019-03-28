@@ -52,6 +52,8 @@ marijuana_price <- read.csv("data/marijuana_price.csv", header = TRUE)
 
 Lets try loading the `OD_2018Q1.csv` file which contains a 10% sample of US domestic flight tickets.
 
+
+`Don't run the code below` 
 ```{r echo=TRUE, eval = FALSE}
 system.time(read.csv("data/OD_2018Q1.csv"))
 ```
